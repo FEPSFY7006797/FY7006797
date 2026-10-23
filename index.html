@@ -7,6 +7,60 @@
   
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   
+  <!-- Google Charts API Script -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
+  <script type="text/javascript">
+    // Load Google Charts library
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+      // 1. Draw Pie Chart (My Daily Activities)
+      var pieData = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 8],
+        ['Sleep', 8],
+        ['Eat', 2],
+        ['Study', 4],
+        ['Exercise', 2]
+      ]);
+
+      var pieOptions = {
+        title: 'My Daily Activities',
+        width: 500,
+        height: 350
+      };
+
+      var pieChart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+      pieChart.draw(pieData, pieOptions);
+
+      // 2. Draw Scatter Chart (Age vs. Salary)
+      var scatterData = new google.visualization.DataTable();
+      scatterData.addColumn('number', 'Age');
+      scatterData.addColumn('number', 'Salary');
+      scatterData.addRows([
+        [25, 40000],
+        [30, 50000],
+        [35, 60000],
+        [40, 75000],
+        [45, 80000],
+        [50, 90000]
+      ]);
+
+      var scatterOptions = {
+        title: 'Age vs. Salary',
+        hAxis: { title: 'Age' },
+        vAxis: { title: 'Salary' },
+        width: 500,
+        height: 350
+      };
+
+      var scatterChart = new google.visualization.ScatterChart(document.getElementById('scatter_chart_div'));
+      scatterChart.draw(scatterData, scatterOptions);
+    }
+  </script>
+
   <style>
     body {
       background-color: #FFFFFF;
@@ -22,19 +76,19 @@
       margin-left: 250px;
     }
 
-    table {
+    table.toc-table {
       font-family: Arial, sans-serif;
       border-collapse: collapse;
       width: 30%;
     }
 
-    td, th {
+    table.toc-table td, table.toc-table th {
       border: 1px solid #dddddd;
       text-align: left;
       padding: 8px;
     }
 
-    tr:nth-child(even) { 
+    table.toc-table tr:nth-child(even) { 
       background-color: #dddddd;
     }
 
@@ -44,6 +98,13 @@
       cursor: pointer;
       border: 1px solid #ccc;
       border-radius: 4px;
+      margin-top: 15px;
+    }
+
+    .chart-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
       margin-top: 15px;
     }
   </style>
@@ -60,7 +121,7 @@
   <hr>
 
   <!-- Table of Contents -->
-  <table>
+  <table class="toc-table">
     <tr>
       <th><h3>Table of contents</h3></th>
     </tr>
@@ -72,6 +133,9 @@
     </tr>
     <tr>
       <td><a href="#Analysis-and-discussion">Analysis and discussion</a></td>
+    </tr>
+    <tr>
+      <td><a href="#Charts">Google Charts Section</a></td>
     </tr>
     <tr>
       <td><a href="#References">References</a></td>
@@ -94,6 +158,13 @@
   <h3 id="Analysis-and-discussion">Analysis and discussion</h3>
   <p>Analysis and discussion section goes here...</p>
 
+  <!-- Google Charts Section -->
+  <h3 id="Charts">Google Charts</h3>
+  <div class="chart-container">
+    <div id="pie_chart_div"></div>
+    <div id="scatter_chart_div"></div>
+  </div>
+
   <h3 id="References">References</h3>
   <p>References go here...</p>
 
@@ -103,101 +174,15 @@
   <button id="colorButton">Click me to change colour</button>
 
   <script>
-    // Get a reference to the button element
     var button = document.getElementById("colorButton");
 
-    // Function to change the button color
-    function change
-      // Generate a random color (hexadecimal)
+    function changeColor() {
       var randomColor = "#" + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-      // Set the button's background color to the random color
       button.style.backgroundColor = randomColor;
     }
 
-    // Add a click event listener to the button
     button.addEventListener("click", changeColor);
   </script>
 
 </body>
-  <!-- //////////////////////////////////////////////////////////////////////////////// -->
-  <!-- ////////////////////////////// Adding last update ////////////////////////////// -->
-  <!-- //////////////////////////////////////////////////////////////////////////////// -->
-    <!-- Last commit time display -->
-<div id="last-updated">Loading last update time...</div>
-<!-- Verify Button -->
-<button onclick="verifyLastUpdatedTime()" style="display: block; margin: 10px auto; padding: 8px 16px;">
-    Verify Last Modified Time
-</button>
-<script>
-    async function getLastUpdatedTime() {
-        const username = 'FEPSFY7006797';
-        const repo = 'FY7006797';
-       
-        const url = `https://api.github.com/repos/${username}/${repo}/commits`;
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`Error fetching data: ${response.status} - ${response.statusText}`);
-            }
-            const commits = await response.json();
-            if (commits && commits.length > 0) {
-                const lastCommitDate = new Date(commits[0].commit.committer.date);
-               
-                // Displaying the time on load
-                document.getElementById('last-updated').innerText = `Last Modified Time: ${lastCommitDate.toLocaleString()}`;
-            } else {
-                document.getElementById('last-updated').innerText = 'No commits found in the repository.';
-            }
-        } catch (error) {
-            console.error('Error fetching the last updated time:', error);
-            document.getElementById('last-updated').innerText = 'Error fetching update time. Please check the repository details.';
-        }
-    }
-    // Function to verify the last update time by re-fetching it from the API
-    async function verifyLastUpdatedTime() {
-        document.getElementById('last-updated').innerText = 'Verifying...';
-        await getLastUpdatedTime();
-        alert("Last modified time has been successfully verified from GitHub API.");
-    }
-    // Initial load to display the time on page load
-    window.onload = getLastUpdatedTime;
-</script>
-
-
- <!-- //////////////////////////////////////////////////////////////////////////////// -->
-  <!-- ////////////////////////////// Word count function ////////////////////////////// -->
-  <!-- //////////////////////////////////////////////////////////////////////////////// -->
-<!-- Placeholder for total word count -->
-<p id="totalWordCount"></p>
-<hr>
-<script>
-  // Function to calculate and display word count for a specified section
-  function displayWordCount(sectionId, outputId) {
-    // Get the text content from the specified section
-    const text = document.getElementById(sectionId).textContent;
-    // Split text into words based on spaces and filter out any empty strings
-    const wordArray = text.trim().split(/\s+/);
-    // Count the words
-    const wordCount = wordArray.length;
-    // Return the word count for summing purposes
-    return wordCount;
-  }
-  // Function to calculate and display total word count from selected sections
-  function displayTotalWordCount() {
-    // Calculate word count for each section and accumulate the total
-    const IntroductionCount = displayWordCount("Introduction_InText");
-    const AnalysisCount = displayWordCount("Analysis_InText");
-    // Calculate the sum of all selected sections
-    const totalWordCount = IntroductionCount + AnalysisCount;
-    // Display the total word count
-    document.getElementById("totalWordCount").innerText = `Total word count: ${totalWordCount}`;
-  }
-  // Run the function for specific sections and display total count when the page loads
-  window.onload = displayTotalWordCount;
-</script>
 </html>
