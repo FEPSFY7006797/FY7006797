@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Conference Paper</title>
+  <title>Conference Paper: Railway Power Systems</title>
   
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   
@@ -11,6 +11,7 @@
     body {
       background-color: #FFFFFF;
       margin-left: 50px;
+      font-family: Arial, sans-serif;
     }
 
     .myslides {
@@ -35,6 +36,15 @@
 
     tr:nth-child(even) { 
       background-color: #dddddd;
+    }
+
+    #colorButton {
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -74,7 +84,7 @@
   <p>
     Railway power systems have improved by magnitudes since the first electric power systems in the 19th century.
     This paper analyses the historical development of railway power systems and evaluates how technology has influenced efficiency, reliability and sustainability.
-    This paper investigates the transitions from dc to ac systems, alongside modern traction converters and electrical motors. Regenerative breaking and energy storage technologies are also explored. 
+    This paper investigates the transitions from dc to ac systems, alongside modern traction converters and electrical motors. Regenerative braking and energy storage technologies are also explored. 
     The British railway network provides context to the coexistence of ac overhead and dc third rail electrification respectively.
   </p>
 
@@ -86,6 +96,27 @@
 
   <h3 id="References">References</h3>
   <p>References go here...</p>
+
+  <hr>
+
+  <!-- Interactive Button -->
+  <button id="colorButton">Click me to change colour</button>
+
+  <script>
+    // Get a reference to the button element
+    var button = document.getElementById("colorButton");
+
+    // Function to change the button color
+    function change
+      // Generate a random color (hexadecimal)
+      var randomColor = "#" + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      // Set the button's background color to the random color
+      button.style.backgroundColor = randomColor;
+    }
+
+    // Add a click event listener to the button
+    button.addEventListener("click", changeColor);
+  </script>
 
 </body>
 </html>
